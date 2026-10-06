@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Primeiros passos com IA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f6f2; --surface:#ffffff; --text:#1d1d1f; --muted:#5f5f66; --line:#e3e1da;
+  --accent:#1f6f6b; --accent-soft:#e3f0ee; --warn:#8a5a00; --warn-soft:#fbf1dc;
+  --code-bg:#f1efe9;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#141517; --surface:#1c1d20; --text:#ececee; --muted:#a3a3ab; --line:#2e3035;
+    --accent:#6cc4bd; --accent-soft:#1e3332; --warn:#e8b75c; --warn-soft:#33291a;
+    --code-bg:#22242a;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#141517; --surface:#1c1d20; --text:#ececee; --muted:#a3a3ab; --line:#2e3035;
+  --accent:#6cc4bd; --accent-soft:#1e3332; --warn:#e8b75c; --warn-soft:#33291a;
+  --code-bg:#22242a;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:17px/1.65 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-text-size-adjust:100%}
+.wrap{max-width:780px;margin:0 auto;padding:40px 16px 80px}
+header.hero{padding:24px 0 8px}
+.kicker{color:var(--accent);font-weight:600;font-size:14px;letter-spacing:.06em;text-transform:uppercase}
+h1{font-size:clamp(30px,6vw,44px);line-height:1.15;margin:8px 0 12px}
+.sub{color:var(--muted);margin:0}
+h2{font-size:26px;line-height:1.25;margin:56px 0 12px;padding-top:12px;border-top:1px solid var(--line)}
+h2 .part{display:block;color:var(--accent);font-size:13px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+h3{font-size:20px;margin:36px 0 8px}
+p,ul,ol{margin:0 0 16px}
+li{margin:4px 0}
+strong{font-weight:700}
+a{color:var(--accent)}
+nav.toc{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin:28px 0}
+nav.toc b{display:block;margin-bottom:6px}
+nav.toc ol{margin:0;padding-left:20px}
+.callout{background:var(--accent-soft);border-left:4px solid var(--accent);border-radius:8px;padding:14px 16px;margin:20px 0}
+.callout.warn{background:var(--warn-soft);border-left-color:var(--warn)}
+.callout p:last-child{margin:0}
+.ex{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin:12px 0;font-style:italic}
+.ex .tag{display:block;font-style:normal;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:4px}
+code{font-family:"JetBrains Mono",Consolas,monospace;font-size:.88em;background:var(--code-bg);padding:1px 6px;border-radius:5px}
+pre{font-family:"JetBrains Mono",Consolas,monospace;font-size:13px;line-height:1.45;background:var(--code-bg);border:1px solid var(--line);border-radius:10px;padding:16px;overflow-x:auto;margin:16px 0 20px}
+.table-wrap{overflow-x:auto;margin:16px 0 20px;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:15px;background:var(--surface)}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--code-bg);font-weight:600}
+tr:last-child td{border-bottom:0}
+.note{color:var(--muted);font-size:14px}
+footer{margin-top:64px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+.theme-btn{position:fixed;top:12px;right:12px;background:var(--surface);color:var(--text);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font:inherit;font-size:13px;cursor:pointer}
+@media print{.theme-btn,nav.toc{display:none} body{background:#fff}}
+</style>
+</head>
+<body>
+<button class="theme-btn" id="tema" type="button" aria-label="Alternar tema claro e escuro">◐ Tema</button>
+<div class="wrap">
+
+<header class="hero">
+  <div class="kicker">Material de apoio · aula básica</div>
+  <h1>Primeiros passos com IA</h1>
+  <p class="sub">O que você precisa entender para começar. Leitura de 20 a 25 minutos.</p>
+</header>
+
+<nav class="toc">
+  <b>Neste material</b>
+  <ol>
+    <li><a href="#p1">Os conceitos básicos</a></li>
+    <li><a href="#p2">O VS Code: onde vamos trabalhar</a></li>
+    <li><a href="#p3">O Notion: a vitrine organizada</a></li>
+    <li><a href="#p4">O GitHub: o histórico e a cópia de segurança</a></li>
+    <li><a href="#p5">Os cuidados que valem para todo mundo</a></li>
+    <li><a href="#p6">Como tudo se encaixa</a></li>
+    <li><a href="#glossario">Glossário rápido</a> · <a href="#exercicio">Primeiro exercício</a></li>
+  </ol>
+</nav>
+
+<h2>Antes de começar: a ideia central</h2>
+<p>Até pouco tempo, usar IA era abrir um site, digitar uma pergunta e copiar a resposta. Isso continua existindo, mas o que mudou o jogo foi outra coisa: <strong>a IA agora consegue trabalhar</strong>. Ela abre arquivos, lê planilhas, escreve documentos, consulta sistemas e devolve o trabalho pronto, não só uma resposta.</p>
+<p>O objetivo deste material é que você saia sabendo:</p>
+<ol>
+  <li>os conceitos básicos: o que é um modelo, um agente, uma habilidade, um conector, um artefato;</li>
+  <li>onde vamos usar a IA: o <strong>VS Code</strong>;</li>
+  <li>como a IA conversa com duas ferramentas muito usadas: o <strong>Notion</strong> e o <strong>GitHub</strong>;</li>
+  <li>os cuidados que valem para todo mundo.</li>
+</ol>
+<p>Não precisa decorar nada. Guarde a lógica; os nomes vêm com o uso.</p>
+
+<!-- ============ PARTE 1 ============ -->
+<h2 id="p1"><span class="part">Parte 1</span>Os conceitos básicos</h2>
+
+<h3>1. O modelo: o "cérebro" da IA</h3>
+<p>O <strong>modelo</strong> é o programa que lê o que você escreve e produz uma resposta. O que usamos é o <strong>Claude</strong>, da empresa Anthropic. Existem outros (o ChatGPT, da OpenAI, o Gemini, do Google), e todos funcionam de forma parecida.</p>
+<p>Como ele funciona, em uma frase: o modelo aprendeu com uma quantidade enorme de texto e, a partir disso, <strong>prevê qual é a continuação mais provável</strong> para o que você escreveu. Por isso ele escreve tão bem, e por isso também pode errar com toda a confiança do mundo.</p>
+<div class="callout warn"><p><strong>Guarde isto:</strong> a IA não "sabe" as coisas como uma pessoa sabe. Ela pode <strong>inventar</strong> um número, uma lei ou um nome com o mesmo tom seguro com que diz uma verdade. Sempre que o assunto for número, prazo, preço ou regra, peça a fonte ou confira.</p></div>
+<p>Existem versões maiores e menores do mesmo modelo. As maiores pensam melhor e são mais lentas; as menores são rápidas e boas para tarefas simples. No dia a dia, você não precisa se preocupar com isso: o padrão já é bom.</p>
+
+<h3>2. A conversa e o pedido</h3>
+<p>Tudo começa com o <strong>pedido</strong> (também chamado de instrução): o que você escreve para a IA. A qualidade da resposta depende muito da qualidade do pedido.</p>
+<div class="ex"><span class="tag">Pedido fraco</span>"Faz um resumo dessa planilha."</div>
+<div class="ex"><span class="tag">Pedido bom</span>"Leia a planilha de vendas de setembro. Quero um resumo de meia página para a reunião de segunda, mostrando os 5 produtos que mais caíram em relação a setembro do ano passado. Escreva em tom direto, sem jargão."</div>
+<p>O segundo funciona melhor porque diz <strong>o quê</strong>, <strong>para quem</strong>, <strong>para quando</strong>, <strong>em que formato</strong> e <strong>com que critério</strong>. Uma boa regra prática: escreva para a IA como você escreveria para um colega novo e muito inteligente, mas que não conhece nada da empresa.</p>
+<p><strong>Dicas que funcionam sempre:</strong></p>
+<ul>
+  <li><strong>Dê contexto.</strong> Quem vai ler, para que serve, o que já foi tentado.</li>
+  <li><strong>Mostre um exemplo</strong> do resultado que você quer, se tiver.</li>
+  <li><strong>Peça em etapas</strong> quando a tarefa for grande: primeiro o plano, depois a execução.</li>
+  <li><strong>Corrija na mesma conversa.</strong> "Ficou longo, corta pela metade" funciona muito bem.</li>
+  <li><strong>Peça para ela perguntar.</strong> "Antes de começar, me pergunte o que faltar" evita retrabalho.</li>
+</ul>
+
+<h3>3. O contexto: a memória de curto prazo</h3>
+<p>O <strong>contexto</strong> é tudo o que a IA está "enxergando" naquele momento: a conversa até ali, os arquivos que ela abriu, as instruções que recebeu. Pense nele como a mesa de trabalho dela.</p>
+<ul>
+  <li><strong>A mesa tem tamanho limitado.</strong> Em conversas muito longas, as partes antigas são resumidas para caber. Se a conversa ficou enorme e confusa, comece uma nova.</li>
+  <li><strong>Uma conversa nova começa com a mesa vazia.</strong> A IA não lembra do que você falou ontem, a menos que isso tenha sido guardado em algum lugar (veja "memória", abaixo).</li>
+</ul>
+
+<h3>4. A memória: o que fica de uma conversa para outra</h3>
+<p>Como cada conversa começa do zero, as ferramentas criaram formas de <strong>guardar informação permanente</strong>:</p>
+<ul>
+  <li><strong>Arquivo de instruções do projeto:</strong> um texto que a IA lê toda vez que começa a trabalhar naquela pasta. Ali ficam as regras da casa: "responda em português", "nunca apague arquivo sem perguntar", "cada unidade se analisa separada".</li>
+  <li><strong>Memórias:</strong> fatos curtos que a IA anota sobre você e sobre o trabalho ("ele prefere respostas diretas", "o relatório mensal sai sempre no dia 5").</li>
+</ul>
+<p>Na prática: <strong>o que não foi escrito em algum lugar, a IA esquece.</strong> Se você decidiu uma regra importante numa conversa, peça para ela registrar.</p>
+
+<h3>5. O agente: a IA que age</h3>
+<p>Aqui está o salto. Um <strong>agente</strong> é a IA trabalhando em ciclo:</p>
+<pre>  entende o pedido → planeja → usa uma ferramenta → olha o resultado → decide o próximo passo
+         ↑                                                                    |
+         └────────────────────────── repete até terminar ─────────────────────┘</pre>
+<p>Na conversa comum, você pergunta e ela responde. Com um agente, você pede <em>"organize estas 40 notas fiscais numa planilha e me diga quais estão sem data de vencimento"</em>, e ela abre arquivo por arquivo, monta a planilha, confere e devolve o resultado, sozinha, em vários passos.</p>
+<p>As <strong>ferramentas</strong> são o que o agente consegue fazer: ler arquivo, escrever arquivo, pesquisar na internet, executar um programa, consultar um sistema. Cada ferramenta é uma "mão" do agente.</p>
+<p>Também existem <strong>subagentes</strong>: o agente principal pode delegar uma parte do trabalho para outro agente (por exemplo, "vá pesquisar isto enquanto eu escrevo aquilo"). Você raramente precisa pedir isso: ele decide sozinho.</p>
+<div class="callout"><p><strong>Por que isso importa para você:</strong> um agente mexe de verdade nas coisas. Por isso ele pede <strong>permissão</strong> antes de ações sensíveis: apagar, enviar, publicar. Leia o que ele está pedindo antes de clicar em "permitir".</p></div>
+
+<h3>6. A habilidade: o manual que a IA consulta</h3>
+<p>Uma <strong>habilidade</strong> é um pacote de instruções sobre um assunto específico, guardado em uma pasta, que a IA carrega <strong>quando o assunto aparece</strong>.</p>
+<p>Exemplo: imagine que toda vez que alguém pede "calcula a reposição de estoque" existe um jeito certo de fazer: quais colunas usar, como arredondar, o que nunca entra na conta. Em vez de explicar isso em toda conversa, escreve-se uma habilidade com essas regras. Quando o assunto "reposição" surge, a IA abre aquele manual e segue.</p>
+<p>Pense numa habilidade como <strong>a receita de bolo da casa</strong>: qualquer cozinheiro competente faz um bolo, mas só quem tem a receita faz o bolo <em>daquele jeito</em>.</p>
+<p>Uma habilidade normalmente tem:</p>
+<ul>
+  <li>uma <strong>descrição curta</strong>: é por ela que a IA decide se deve usar aquela habilidade;</li>
+  <li>as <strong>instruções</strong>: o passo a passo e as regras;</li>
+  <li>às vezes, <strong>arquivos de apoio</strong>: modelos, exemplos, pequenos programas prontos.</li>
+</ul>
+<p>Há habilidades prontas, publicadas por empresas (para mexer em planilhas, criar apresentações, consultar um sistema de gestão), e há as que <strong>nós mesmos escrevemos</strong> com as regras do nosso trabalho. Essas são as mais valiosas.</p>
+
+<h3>7. Os comandos de barra</h3>
+<p>Dentro da conversa, digitar <code>/</code> abre uma lista de <strong>comandos</strong>: atalhos para tarefas que se repetem. Por exemplo, um comando <code>/revisar</code> pode disparar sempre a mesma revisão de um documento. Muitas habilidades também podem ser chamadas assim, pelo nome.</p>
+
+<h3>8. O conector: a ponte com outros sistemas</h3>
+<p>Um <strong>conector</strong> liga a IA a um serviço externo: Notion, e-mail, agenda, gerenciador de tarefas, GitHub e muitos outros. Com o conector ativo, você pode pedir:</p>
+<div class="ex">"Procure no Notion a página da reunião de terça e me traga as decisões."</div>
+<div class="ex">"Veja na minha agenda se tenho horário livre quinta à tarde."</div>
+<p>Sem conector, a IA não enxerga esses sistemas: ela só vê o que você cola na conversa ou o que está nos arquivos do computador.</p>
+<ul>
+  <li><strong>Você autoriza uma vez</strong>, fazendo o acesso com a sua conta no serviço. A IA passa a agir <strong>com as suas permissões</strong>: vê o que você vê, e só isso.</li>
+  <li><strong>Ler é diferente de escrever.</strong> Pesquisar no Notion é inofensivo; criar páginas, mandar e-mail ou apagar tarefa tem efeito real. A IA deve sempre mostrar o conteúdo e pedir confirmação antes de qualquer ação que saia para fora.</li>
+  <li>O nome técnico do padrão que faz isso funcionar é <strong>protocolo de contexto de modelo</strong>. Você vai ver a sigla em inglês por aí; o conceito é só "tomada universal para ligar a IA a sistemas".</li>
+</ul>
+
+<h3>9. O artefato: o trabalho entregue</h3>
+<p>Um <strong>artefato</strong> é o produto que a IA entrega pronto para uso, fora da conversa: uma página, um documento, uma apresentação, um painel com gráficos, uma pequena aplicação.</p>
+<p>A diferença é prática: uma resposta na conversa você lê e esquece; um artefato tem <strong>endereço próprio</strong>, pode ser aberto de novo, atualizado e compartilhado com colegas.</p>
+<div class="ex">"Transforme esta análise numa página com gráficos para eu mostrar na reunião."</div>
+<div class="ex">"Monte uma apresentação de 8 lâminas com os resultados do trimestre."</div>
+<div class="callout warn"><p><strong>Atenção:</strong> artefato publicado é conteúdo que outras pessoas podem ver. Antes de compartilhar, confira se não há dado sensível dentro (veja a Parte 5).</p></div>
+
+<h3>10. Automatismos e rotinas (só para saber que existem)</h3>
+<ul>
+  <li><strong>Gatilhos:</strong> pequenas regras que rodam sozinhas em momentos certos ("toda vez que a conversa começar, verifique se há arquivo pendente").</li>
+  <li><strong>Rotinas agendadas:</strong> tarefas que a IA executa sozinha num horário fixo, como um resumo matinal enviado por e-mail todo dia às 7h30.</li>
+</ul>
+<p>Não se preocupem com eles agora. Primeiro, dominem a conversa e o agente.</p>
+
+<h3>Resumo da Parte 1 em uma imagem</h3>
+<pre>            VOCÊ
+             │  pedido
+             ▼
+   ┌──────────────────────────┐
+   │  AGENTE (o modelo agindo)│◄── instruções do projeto + memórias
+   │                          │◄── HABILIDADES (manuais por assunto)
+   └───┬───────────┬──────────┘
+       │           │
+  ferramentas   CONECTORES
+  (arquivos,    (Notion, e-mail,
+   programas,    agenda, GitHub...)
+   internet)
+       │           │
+       └─────┬─────┘
+             ▼
+   resposta  ou  ARTEFATO (página, documento, apresentação)</pre>
+
+<!-- ============ PARTE 2 ============ -->
+<h2 id="p2"><span class="part">Parte 2</span>O VS Code: onde vamos trabalhar</h2>
+<h3>O que é</h3>
+<p>O <strong>VS Code</strong> (Visual Studio Code) é um editor gratuito da Microsoft. Nasceu para programadores, mas virou um ótimo lugar para trabalhar com IA por um motivo simples: <strong>ele mostra a pasta de arquivos, o arquivo aberto e a conversa com a IA na mesma tela.</strong> Você vê a IA mexendo nos arquivos enquanto ela trabalha.</p>
+<p>Você <strong>não precisa saber programar</strong> para usar. Pense nele como um "explorador de arquivos com bloco de notas e assistente embutidos".</p>
+
+<h3>As partes da tela</h3>
+<pre>┌────┬──────────────────┬────────────────────────────┬─────────────────────┐
+│ 1  │ 2                │ 3                          │ 4                   │
+│    │ EXPLORADOR       │ EDITOR                     │ CONVERSA COM A IA   │
+│    │ (pastas e        │ (o arquivo aberto)         │ (Claude)            │
+│    │  arquivos)       │                            │                     │
+│    │                  │                            │  Você: ...          │
+│    │                  │                            │  Claude: ...        │
+│    │                  ├────────────────────────────┤                     │
+│    │                  │ 5  TERMINAL (opcional)     │  [ escreva aqui ]   │
+└────┴──────────────────┴────────────────────────────┴─────────────────────┘</pre>
+<ol>
+  <li><strong>Barra de atividades:</strong> os ícones da esquerda: arquivos, busca, controle de versões (o GitHub, Parte 4) e as extensões.</li>
+  <li><strong>Explorador:</strong> a pasta em que você está trabalhando e tudo que há dentro dela.</li>
+  <li><strong>Editor:</strong> onde o arquivo aberto aparece. Abre várias abas, como um navegador.</li>
+  <li><strong>Painel da IA:</strong> a conversa com o Claude.</li>
+  <li><strong>Terminal:</strong> uma janela de comandos de texto. Você quase não vai usar; a IA usa por você.</li>
+</ol>
+
+<h3>Conceitos do VS Code que importam</h3>
+<ul>
+  <li><strong>Pasta de trabalho.</strong> O VS Code trabalha sempre com <strong>uma pasta aberta</strong> (menu <em>Arquivo → Abrir Pasta</em>). A IA enxerga essa pasta, e só ela. Abrir a pasta certa é o primeiro passo de qualquer trabalho.</li>
+  <li><strong>Extensões.</strong> São complementos que adicionam funções ao VS Code. A IA chega ao editor por uma extensão: a do <strong>Claude Code</strong>. Instala-se pelo ícone de extensões (os quatro quadradinhos), buscando pelo nome.</li>
+  <li><strong>Arquivos Markdown (<code>.md</code>).</strong> É texto simples com marcações leves: <code>#</code> vira título, <code>**palavra**</code> vira negrito, <code>-</code> vira lista. É o formato preferido para notas e instruções, porque qualquer pessoa, e qualquer IA, lê. Para ver o arquivo formatado, use o botão de pré-visualização no canto superior direito do editor.</li>
+  <li><strong>Paleta de comandos.</strong> <code>Ctrl + Shift + P</code> abre uma busca por qualquer função do VS Code. Se não souber onde está algo, procure ali.</li>
+</ul>
+
+<h3>Como trabalhar com a IA no VS Code</h3>
+<ol>
+  <li><strong>Abra a pasta</strong> do trabalho.</li>
+  <li><strong>Abra o painel do Claude</strong> (ícone do Claude na barra lateral ou no canto do editor).</li>
+  <li><strong>Escreva o pedido.</strong> Para apontar um arquivo específico, digite <code>@</code> e o nome do arquivo: assim ele entra no contexto sem você precisar colar o conteúdo.</li>
+  <li><strong>Acompanhe.</strong> A IA mostra cada passo: que arquivo leu, que comando rodou, o que alterou.</li>
+  <li><strong>Aprove ou recuse.</strong> Antes de mexer em algo, ela pede permissão. Você pode permitir uma vez, permitir sempre para aquele tipo de ação, ou recusar e explicar o motivo.</li>
+  <li><strong>Revise as mudanças.</strong> Quando ela altera um arquivo, o VS Code mostra o antes e o depois lado a lado: vermelho é o que saiu, verde é o que entrou.</li>
+</ol>
+<p><strong>Dois modos que vale conhecer:</strong></p>
+<ul>
+  <li><strong>Modo de planejamento:</strong> a IA só pensa e propõe um plano, sem alterar nada. Ótimo para tarefas grandes: você aprova o plano e só então ela executa.</li>
+  <li><strong>Modo de aceitação automática:</strong> ela aplica as mudanças sem perguntar a cada passo. Use só quando já tiver confiança na tarefa e houver como desfazer (veja o GitHub).</li>
+</ul>
+
+<!-- ============ PARTE 3 ============ -->
+<h2 id="p3"><span class="part">Parte 3</span>O Notion: a vitrine organizada</h2>
+<h3>O que é</h3>
+<p>O <strong>Notion</strong> é um aplicativo de anotações e organização na nuvem. Funciona como um caderno digital infinito, acessível pelo navegador ou pelo celular.</p>
+<h3>Os conceitos</h3>
+<ul>
+  <li><strong>Espaço de trabalho:</strong> o "prédio" inteiro: tudo o que uma pessoa ou equipe tem no Notion.</li>
+  <li><strong>Página:</strong> a unidade básica. Pode ter texto, listas, imagens, tabelas, e outras páginas dentro dela, como pastas dentro de pastas.</li>
+  <li><strong>Bloco:</strong> cada pedaço de uma página (um parágrafo, um título, uma imagem) é um bloco. Digite <code>/</code> numa página para escolher que tipo de bloco inserir.</li>
+  <li><strong>Base de dados:</strong> uma tabela "inteligente", em que <strong>cada linha é uma página</strong> e as colunas são <strong>propriedades</strong> (status, data, responsável, etiqueta). Serve para listas de projetos, decisões, tarefas, contatos.</li>
+  <li><strong>Visualizações:</strong> a mesma base de dados pode ser vista como tabela, quadro (colunas de "a fazer / fazendo / feito"), calendário ou galeria. Os dados são os mesmos; muda só a forma de ver.</li>
+  <li><strong>Compartilhamento:</strong> cada página pode ser privada, compartilhada com pessoas específicas ou aberta a quem tiver o endereço.</li>
+</ul>
+<h3>Onde a IA entra</h3>
+<p>Com o <strong>conector do Notion</strong> ligado, a IA pode <strong>pesquisar, ler, criar e atualizar páginas</strong> para você:</p>
+<div class="ex">"Crie no Notion uma página com o resumo desta reunião, na base de Decisões."</div>
+<div class="ex">"Quais projetos estão com status 'Em andamento' no Notion?"</div>
+<h3>Uma boa prática</h3>
+<p>Uma lição que vale a pena levar: <strong>o Notion é a vitrine, não o depósito.</strong> Ele é ótimo para consultar resumos, decisões e referências, de forma bonita e organizada. Mas o material bruto (planilhas, relatórios completos, arquivos de trabalho) fica guardado na pasta de trabalho, e o Notion recebe <strong>o resumo</strong> do que foi decidido, com a indicação de onde está a origem.</p>
+<p>Isso evita o problema clássico de ter a mesma informação em dois lugares, cada um com uma versão diferente.</p>
+
+<!-- ============ PARTE 4 ============ -->
+<h2 id="p4"><span class="part">Parte 4</span>O GitHub: o histórico e a cópia de segurança</h2>
+<h3>O que é</h3>
+<p>O <strong>GitHub</strong> é um serviço na internet que guarda pastas de arquivos <strong>com todo o histórico de mudanças</strong>. Ele usa por baixo uma ferramenta chamada <strong>Git</strong>, que é o controle de versões propriamente dito.</p>
+<p>A melhor comparação: é o <strong>"histórico de versões" do Google Docs, só que para uma pasta inteira</strong>, e em que cada versão vem com uma frase explicando o que mudou e por quê.</p>
+<h3>Os conceitos</h3>
+<div class="table-wrap"><table>
+  <thead><tr><th>Conceito</th><th>O que é</th><th>Comparação</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Repositório</strong></td><td>A pasta acompanhada pelo Git, com todo o histórico</td><td>Um arquivo-morto com todas as versões</td></tr>
+    <tr><td><strong>Registro de versão</strong> <span class="note">(na tela: <em>commit</em>)</span></td><td>Uma "foto" da pasta num momento, com uma mensagem explicando a mudança</td><td>Um carimbo "versão de 06/10: corrigido o total de setembro"</td></tr>
+    <tr><td><strong>Enviar</strong> <span class="note">(<em>push</em>)</span></td><td>Mandar os registros do seu computador para o GitHub</td><td>Fazer a cópia de segurança na nuvem</td></tr>
+    <tr><td><strong>Puxar</strong> <span class="note">(<em>pull</em>)</span></td><td>Trazer para o seu computador o que outros enviaram</td><td>Sincronizar</td></tr>
+    <tr><td><strong>Ramo</strong> <span class="note">(<em>branch</em>)</span></td><td>Uma linha paralela de trabalho, para testar sem mexer na versão principal</td><td>Uma cópia de rascunho</td></tr>
+    <tr><td><strong>Privado / público</strong></td><td>Quem pode ver o repositório</td><td>Gaveta trancada × vitrine</td></tr>
+  </tbody>
+</table></div>
+<h3>Por que isso importa quando se trabalha com IA</h3>
+<ol>
+  <li><strong>Rede de segurança.</strong> A IA mexe em arquivos de verdade. Se ela errar, dá para voltar a qualquer versão anterior. Isso é o que permite trabalhar com tranquilidade.</li>
+  <li><strong>Rastro.</strong> Cada registro diz o que mudou e por quê. Daqui a três meses, dá para saber quando uma regra foi alterada e por qual motivo.</li>
+  <li><strong>Mesma pasta em vários computadores.</strong> Envia de um, puxa no outro.</li>
+</ol>
+<h3>Onde a IA entra</h3>
+<p>Você não precisa decorar comandos. Basta pedir:</p>
+<div class="ex">"Registre essa mudança no GitHub com uma mensagem explicando o que fizemos."</div>
+<div class="ex">"O que mudou nesta pasta desde ontem?"</div>
+<div class="ex">"Volte esse arquivo para como estava antes da última mudança."</div>
+<p>O VS Code também mostra tudo isso visualmente, no ícone de <strong>controle de versões</strong> da barra lateral: os arquivos alterados aparecem com uma letra ao lado: <strong>M</strong> (modificado), <strong>U</strong> ou <strong>A</strong> (novo), <strong>D</strong> (apagado).</p>
+<div class="callout warn"><p><strong>Cuidado:</strong> repositório com dado de empresa é <strong>sempre privado</strong>. E nunca se registra senha ou chave de acesso no repositório, nem em repositório privado.</p></div>
+
+<!-- ============ PARTE 5 ============ -->
+<h2 id="p5"><span class="part">Parte 5</span>Os cuidados que valem para todo mundo</h2>
+<ol>
+  <li><strong>Confira número e regra.</strong> A IA pode inventar com confiança. Número tem de vir de um dado real, e quem decide regra de negócio é gente, não a IA.</li>
+  <li><strong>Nunca cole senha, chave de acesso ou credencial na conversa.</strong> Se colar por engano, troque a senha.</li>
+  <li><strong>Dado pessoal de cliente</strong> (nome, CPF, telefone, endereço) é protegido pela LGPD: use só o necessário para a tarefa.</li>
+  <li><strong>Dado sensível da empresa</strong> (custo, margem, preço de compra, faturamento) não vai para texto destinado a cliente, fornecedor ou público externo.</li>
+  <li><strong>Leia antes de permitir.</strong> Quando a IA pede permissão para apagar, enviar ou publicar, leia o que ela vai fazer.</li>
+  <li><strong>O que sai para fora é rascunho até você revisar.</strong> E-mail, mensagem, documento para cliente: a IA prepara, você confere e envia.</li>
+  <li><strong>O que é importante se escreve.</strong> Decisão tomada numa conversa e não registrada em lugar nenhum se perde.</li>
+</ol>
+
+<!-- ============ PARTE 6 ============ -->
+<h2 id="p6"><span class="part">Parte 6</span>Como tudo se encaixa</h2>
+<pre>  VS CODE  ─────────────  onde você conversa com a IA e vê os arquivos
+     │
+     ├── A PASTA DE TRABALHO  ── a fonte da verdade (notas, planilhas, regras)
+     │        │
+     │        └── GITHUB  ────── guarda o histórico e a cópia de segurança
+     │
+     └── A IA (agente) ─┬── usa HABILIDADES para seguir as regras da casa
+                        ├── usa CONECTORES para falar com Notion, e-mail, agenda
+                        └── entrega ARTEFATOS (páginas, documentos, apresentações)
+                                │
+                              NOTION  ── a vitrine: resumos e decisões para consultar</pre>
+<p>O fluxo típico de um dia:</p>
+<ol>
+  <li>Abre o VS Code na pasta de trabalho.</li>
+  <li>Pede algo à IA: uma análise, um documento, uma organização de arquivos.</li>
+  <li>A IA trabalha, pede permissão quando precisa, e entrega.</li>
+  <li>Você revisa.</li>
+  <li>O que valeu a pena fica <strong>registrado no GitHub</strong>; o resumo do que foi decidido vai para o <strong>Notion</strong>.</li>
+</ol>
+
+<!-- ============ GLOSSÁRIO ============ -->
+<h2 id="glossario">Glossário rápido</h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Termo</th><th>Em uma linha</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Modelo</strong></td><td>O "cérebro" da IA; prevê a melhor continuação para o seu texto</td></tr>
+    <tr><td><strong>Pedido</strong></td><td>O que você escreve para a IA; quanto mais claro, melhor o resultado</td></tr>
+    <tr><td><strong>Contexto</strong></td><td>Tudo o que a IA está enxergando naquele momento; tem limite</td></tr>
+    <tr><td><strong>Memória</strong></td><td>Informação guardada que sobrevive de uma conversa para outra</td></tr>
+    <tr><td><strong>Arquivo de instruções</strong></td><td>As regras da casa, lidas pela IA toda vez que começa</td></tr>
+    <tr><td><strong>Agente</strong></td><td>A IA trabalhando em ciclo, usando ferramentas até terminar a tarefa</td></tr>
+    <tr><td><strong>Ferramenta</strong></td><td>Cada ação que o agente sabe fazer: ler, escrever, pesquisar, executar</td></tr>
+    <tr><td><strong>Subagente</strong></td><td>Um agente auxiliar a quem o principal delega parte do trabalho</td></tr>
+    <tr><td><strong>Habilidade</strong></td><td>Um manual de um assunto, que a IA carrega quando o assunto aparece</td></tr>
+    <tr><td><strong>Comando de barra</strong></td><td>Atalho iniciado por <code>/</code> para tarefas que se repetem</td></tr>
+    <tr><td><strong>Conector</strong></td><td>A ponte entre a IA e outro sistema (Notion, e-mail, agenda...)</td></tr>
+    <tr><td><strong>Artefato</strong></td><td>Trabalho entregue com endereço próprio: página, documento, apresentação</td></tr>
+    <tr><td><strong>Permissão</strong></td><td>A confirmação que a IA pede antes de uma ação sensível</td></tr>
+    <tr><td><strong>Modo de planejamento</strong></td><td>A IA só propõe o plano, sem alterar nada</td></tr>
+    <tr><td><strong>Inventar com confiança</strong></td><td>Quando a IA afirma algo falso como se fosse certo: sempre confira</td></tr>
+    <tr><td><strong>Extensão</strong></td><td>Complemento que adiciona funções ao VS Code</td></tr>
+    <tr><td><strong>Repositório</strong></td><td>Pasta acompanhada pelo Git, com todo o histórico de mudanças</td></tr>
+    <tr><td><strong>Registro de versão</strong></td><td>Uma "foto" da pasta com a explicação do que mudou</td></tr>
+    <tr><td><strong>Base de dados (Notion)</strong></td><td>Tabela em que cada linha é uma página com propriedades</td></tr>
+  </tbody>
+</table></div>
+
+<!-- ============ EXERCÍCIO ============ -->
+<h2 id="exercicio">Primeiro exercício (15 minutos)</h2>
+<ol>
+  <li>Abra o VS Code e abra uma pasta qualquer com alguns arquivos (pode ser uma pasta de teste com duas ou três planilhas ou documentos).</li>
+  <li>Abra o painel do Claude e peça: <em>"Me diga o que tem nesta pasta e para que parece servir cada arquivo."</em></li>
+  <li>Escolha um arquivo e peça um resumo, usando <code>@</code> para apontá-lo.</li>
+  <li>Peça uma mudança pequena, <em>"crie um arquivo resumo.md com esse resumo"</em>, e observe o pedido de permissão e o antes e depois.</li>
+  <li>Peça: <em>"Agora me explique, passo a passo, o que você fez."</em></li>
+</ol>
+<div class="callout"><p>Se chegou até aqui, você já usou um agente, uma ferramenta, o contexto e a permissão: os quatro conceitos que sustentam todo o resto.</p></div>
+
+<footer>Material de apoio para aula introdutória · outubro de 2026</footer>
+</div>
+<script>
+(function(){
+  var root=document.documentElement, btn=document.getElementById('tema'), k='aula-ia-tema';
+  try{var s=localStorage.getItem(k); if(s) root.setAttribute('data-theme',s);}catch(e){}
+  btn.addEventListener('click',function(){
+    var cur=root.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+    var nxt=cur==='dark'?'light':'dark'; root.setAttribute('data-theme',nxt);
+    try{localStorage.setItem(k,nxt);}catch(e){}
+  });
+})();
+</script>
+</body>
+</html>
